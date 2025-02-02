@@ -2,7 +2,7 @@ import express from 'express'
 const router = express.Router();
 import { jobModel } from '../models/job.js';
 
-app.get('/jobs/get-all', async (req, res) => {
+router.get('/get-all', async (req, res) => {
     try{
         const jobs = await jobModel.find();
         res.send(jobs);
