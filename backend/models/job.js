@@ -21,6 +21,13 @@ const jobSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    applications:[
+        {
+            name: String,
+            email: String,
+            resume: Buffer,
+        }
+    ],
 })
 
 export const jobModel = mongoose.model('job', jobSchema)
