@@ -2,7 +2,37 @@ import dotenv from 'dotenv';
 dotenv.config();
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken'
-import { userModel } from '../models/user';
+import { userModel } from '../models/user.js';
+
+export const registerUser = async(req, res) => {
+    try{
+        const {password, email} = req.body;
+        if(!password || !email)
+            return res.status(400).json({success: false, message: "All fields are required"});
+        const user = await userModel.findOne({email: req.body.email});
+        if(user)
+            return res.status(400).json({success: false, message: "Already existed user with this email" });
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new userModel({
+            email: email,
+            password: hashedPassword
+        });
+        await newUser.save();
+
+        const token = jwt.sign({email}, process.env.JWT_SECRET, {expiresIn: 60*60*24});
+
+        res.cookie('user', token, {httpOnly: true});
+
+        return res.status(200).json({success: true, message: "User registered successfully!" });
+    }
+    catch(err){
+        res.status(500).json({
+            success: false,
+            message: "An error occures while registering the user",
+            error: err.message
+        })
+    }
+}
 
 export const loginUser = async(req, res) => {
     try{
