@@ -36,3 +36,25 @@ export const createJob = async (req, res) => {
         })
     }
 }
+
+export const apply = async (req, res) => {
+    try{
+        const resume = req.file.buffer;
+        const {name, email} = req.body;
+        if(!name || !email || !resume)
+            return res.status(400).json({success: false, message: "All fields are required"});
+        const job = await jobModel.findById(req.params.id);
+        if(!job)
+            return res.status(404).json({success: false, message: "Job not found"});
+        job.applications.push({name, email, resume});
+        await job.save();
+        res.status(200).json({success: true, message: "Applied successfully!"});
+    }
+    catch(err){
+        res.status(500).json({
+            success: false,
+            message: "An error occures while applying the job",
+            error: err.message
+        })
+    }
+}
