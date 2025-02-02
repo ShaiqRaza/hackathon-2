@@ -6,6 +6,7 @@ import './db/index.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
 import jobRoutes from './routes/jobRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 
 app.use(cors());  
 app.use(cookieParser());
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/job', jobRoutes);
+app.use('/auth', authRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
