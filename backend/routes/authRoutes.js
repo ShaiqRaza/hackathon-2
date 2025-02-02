@@ -5,6 +5,6 @@ import { loginUser, logoutUser, isLoggedIn, registerUser } from '../controllers/
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.post('/logout', logoutUser);
-router.post('/status', isLoggedIn);//to identify is the user loggedin or not
+router.get('/status', isLoggedIn);//to identify is the user loggedin or not
 
 export default router;
