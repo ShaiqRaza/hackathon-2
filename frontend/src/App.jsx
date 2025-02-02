@@ -1,12 +1,15 @@
 import { useState } from 'react'
 import './App.css'
+import { Jobs } from '../components/jobs.jsx'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <h1 className='text-blue-700'>Hello Vite + React!</h1>
+      <h1 className='text-xl text-white font-bold p-4 w-full text-center'>Job Listing</h1>
+      <div className='h-screen w-screen flex px-30'>
+        <Jobs />
+      </div>
     </>
   )
 }
